@@ -67,8 +67,9 @@ public class ScienceTeacherAgent {
           continue;
         }
 
-
-        if(EXIT_VARIANTS.contains(userInput)) {
+        // both works
+        if(EXIT_VARIANTS.stream().map(variant -> variant.toLowerCase().equals(userInput)).filter(e -> e).findAny().orElse(false)) {
+//        if(EXIT_VARIANTS.contains(userInput)) {
           System.out.println("Exiting the Science Teacher Assistant. Goodbye!");
           break;
         }

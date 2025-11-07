@@ -19,4 +19,21 @@ class ThrowAwary {
     numbers.add("four");
     Assertions.assertTrue(true);
   }
+
+  @Test
+  void testing() {
+    List<String> EXIT_VARIANTS = List.of("exit", "quit", "bye", "goodbye");
+    String userInput  = "bye";
+    var result = EXIT_VARIANTS.stream().map(variant ->
+    {
+      System.out.println("Checking variant: " + variant);
+      return variant.toLowerCase().equals(userInput);
+    })
+        .filter(conditionCheck -> conditionCheck)
+        .peek(System.out::println)
+        .findAny().orElse(false);
+
+    System.out.println(result);
+//    variant -> variant.toLowerCase().equals(userInput)).findAny().orElse(false)
+  }
 }
