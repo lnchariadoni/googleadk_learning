@@ -1,4 +1,4 @@
-package agents;
+package agents.level0;
 
 import com.google.adk.agents.BaseAgent;
 import com.google.adk.agents.LlmAgent;
@@ -11,15 +11,17 @@ import io.reactivex.rxjava3.core.Flowable;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO remove this
 /*
 How to run:
     export GOOGLE_API_KEY=YOUR_KEY
 
-    mvn compile exec:java -DmainClass="agents.ScienceTeacherAgent"
+    mvn clean compile exec:java -DmainClass="agents.level0.ScienceTeacherAgent"
 
-    mvn compile exec:java \
+    mvn clean compile exec:java \
     -Dexec.mainClass="com.google.adk.web.AdkWebServer" \
     -Dexec.args="--adk.agents.source-dir=target --server.port=8000"
 
@@ -29,6 +31,8 @@ References:
 - https://www.youtube.com/watch?v=P4VFL9nIaIA
  */
 public class ScienceTeacherAgent {
+  private static final Logger logger = LoggerFactory.getLogger(ScienceTeacherAgent.class);
+
   public static final String LLM_MODEL_GEMINI_2_5_PRO= "gemini-2.5-pro";
   public static final String LLM_MODEL_GEMINI_2_5_FLASH = "gemini-2.5-flash"; // working and tested
   public static final String LLM_MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash";
@@ -46,6 +50,7 @@ public class ScienceTeacherAgent {
         .model(LLM_MODEL_GEMINI_2_5_FLASH)
         .instruction("""
             You are a helpful science teacher that explains science concepts to kids and teenagers in simple words and in an engaging fashion.
+            Anything other than science related questions should be politely declined. Be crisp and to the point in your answers.
             """)
         .build();
   }
@@ -77,7 +82,6 @@ public class ScienceTeacherAgent {
         Content userInputContent = Content.fromParts(Part.fromText(userInput));
         Flowable<Event> events = runner.runAsync(session.userId(), session.id(), userInputContent);
 
-        System.out.println("\nAgent:");
         events.blockingForEach(ScienceTeacherAgent::printEvent);
       }
     }
@@ -86,5 +90,4 @@ public class ScienceTeacherAgent {
   private static void printEvent(Event event) {
     System.out.println(event.stringifyContent());
   }
-
 }
