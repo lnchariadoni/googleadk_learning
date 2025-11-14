@@ -9,49 +9,27 @@ import com.google.genai.types.Content;
 import com.google.genai.types.Part;
 import io.reactivex.rxjava3.core.Flowable;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.LLMConstants;
 
-// TODO remove this
-/*
-How to run:
-    export GOOGLE_API_KEY=YOUR_KEY
-
-    mvn clean compile exec:java -DmainClass="agents.level0.ScienceTeacherAgent"
-
-    mvn clean compile exec:java \
-    -Dexec.mainClass="com.google.adk.web.AdkWebServer" \
-    -Dexec.args="--adk.agents.source-dir=target --server.port=8000"
-
-References:
-- https://www.youtube.com/watch?v=VM3b3csBeUc&list=PLWVjTNKbh-LmnsxminYNE5UM0eKH4oy_c
-- https://www.youtube.com/watch?v=44C8u0CDtSo
-- https://www.youtube.com/watch?v=P4VFL9nIaIA
- */
 public class ScienceTeacherAgent {
-  private static final Logger logger = LoggerFactory.getLogger(ScienceTeacherAgent.class);
-
-  public static final String LLM_MODEL_GEMINI_2_5_PRO= "gemini-2.5-pro";
-  public static final String LLM_MODEL_GEMINI_2_5_FLASH = "gemini-2.5-flash"; // working and tested
-  public static final String LLM_MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash";
-  public static final String LLM_MODEL_GEMINI_1_5_FLASH = "gemini-1.5-flash";
-
-  public static final List<String> EXIT_VARIANTS = List.of("exit", "quit", "bye", "goodbye");
-
   public static final BaseAgent ROOT_AGENT = initializeAgent();
+  private static final Logger LOGGER = LoggerFactory.getLogger(ScienceTeacherAgent.class);
 
   public static BaseAgent initializeAgent() {
+    final String instruction = """
+        You are a helpful science teacher that explains science concepts to kids and teenagers in simple words and in an engaging fashion.
+        Anything other than science related questions should be politely declined. Be crisp and to the point in your answers.
+        """;
+
     return LlmAgent
         .builder()
         .name("science-teacher-assistant")
         .description("scientific research assistant for teachers")
-        .model(LLM_MODEL_GEMINI_2_5_FLASH)
-        .instruction("""
-            You are a helpful science teacher that explains science concepts to kids and teenagers in simple words and in an engaging fashion.
-            Anything other than science related questions should be politely declined. Be crisp and to the point in your answers.
-            """)
+        .model(LLMConstants.CURRENT_MODEL)
+        .instruction(instruction)
         .build();
   }
 
@@ -62,19 +40,18 @@ public class ScienceTeacherAgent {
         .createSession(runner.appName(), "demo_session_user")
         .blockingGet();
 
-    try(Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
+    try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
       while (true) {
         System.out.print("You: ");
         String userInput = scanner.nextLine().trim();
 
-        if(userInput.isEmpty()) {
+        if (userInput.isEmpty()) {
           System.out.println("Please enter a valid question or type 'exit' or 'quit' to quit.");
           continue;
         }
 
         // both works
-        if(EXIT_VARIANTS.stream().map(variant -> variant.toLowerCase().equals(userInput)).filter(e -> e).findAny().orElse(false)) {
-//        if(EXIT_VARIANTS.contains(userInput)) {
+        if (LLMConstants.EXIT_VARIANTS.contains(userInput)) {
           System.out.println("Exiting the Science Teacher Assistant. Goodbye!");
           break;
         }
@@ -88,6 +65,6 @@ public class ScienceTeacherAgent {
   }
 
   private static void printEvent(Event event) {
-    System.out.println(event.stringifyContent());
+    System.out.println("In ScienceTeacherAgent(response)>" + event.stringifyContent());
   }
 }
