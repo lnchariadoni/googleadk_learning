@@ -211,3 +211,4 @@ bin/
 
 # Local VSCode settings
 .vscode/
+/experimental-agents.iml
