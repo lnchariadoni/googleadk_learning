@@ -46,6 +46,16 @@ Refer to level2. This is an aggregate agent that uses multiple agents to answer 
     -Dexec.mainClass="com.google.adk.web.AdkWebServer" 
 ```
 
+# Level 3: An course recommendation agent using MCP
+Refer to level3. The agent is just a facade, per se, that depends on the MCP to retrieve available courses and respond to user queries.
+## How to run
+*Note: The key must be set using export GOOGLE_API_KEY=<<YOUR_KEY>>*
+
+### Shell based interaction
+```shell
+    mvn clean compile exec:java -DmainClass="agents.level3.CoursesWithMCPAgent"
+```
+
 ## References
 - https://www.youtube.com/watch?v=VM3b3csBeUc&list=PLWVjTNKbh-LmnsxminYNE5UM0eKH4oy_c
 - https://www.youtube.com/watch?v=44C8u0CDtSo
