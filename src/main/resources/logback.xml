@@ -76,9 +76,40 @@
         <appender-ref ref="FILE"/>
     </logger>
 
+    <logger name="com.google.ai.agents" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="com.google.ai.agents.tools" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="com.google.ai.agents.mcp" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="com.google.ai.client.generativeai" level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
     <!-- Root Logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
+</configuration>
+
+
+<configuration>
+
+
+
+<root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+</root>
+
 </configuration>
