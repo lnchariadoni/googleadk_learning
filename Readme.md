@@ -56,6 +56,16 @@ Refer to level3. The agent is just a facade, per se, that depends on the MCP to 
     mvn clean compile exec:java -DmainClass="agents.level3.CoursesWithMCPAgent"
 ```
 
+# Level 4: An DVD Movie rental analysis agent using MCP
+Refer to level4. This agent uses the MCP to analyze DVD movie rental data and provide insights.
+## How to run
+*Note: The key must be set using export GOOGLE_API_KEY=<<YOUR_KEY>>*
+
+### Shell based interaction
+```shell
+    mvn clean compile exec:java -DmainClass="agents.level4.DVDRentalsAnalysisAgentUsingMCP"
+```
+
 ## References
 - https://www.youtube.com/watch?v=VM3b3csBeUc&list=PLWVjTNKbh-LmnsxminYNE5UM0eKH4oy_c
 - https://www.youtube.com/watch?v=44C8u0CDtSo
